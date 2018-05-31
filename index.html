@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="dist/grapes.min.css" rel="stylesheet"/>
   <link href="dist/grapesjs-plugin-filestack.css" rel="stylesheet"/>
-
+  
   <script src="dist/grapes.min.js"></script>
   <script src="dist/grapesjs-mjml.min.js"></script>
   <script src="https://static.filestackapi.com/v3/filestack-0.1.10.js"></script>
@@ -15,17 +15,54 @@
 </head>
 <body>
   <div id="gjs">
-  </div>
-  
-  <script type="text/javascript">
-    var editor = grapesjs.init({
-        fromElement: 1,
-        container : '#gjs',
-        plugins: ['gjs-mjml', 'gjs-plugin-filestack'],
-        pluginsOpts: {
-          'gjs-plugin-filestack': { key: 'Ajh5qpZXWQqmcxokCAM0Zz' }
-        }
-    });
-  </script>
-</body>
-</html>
+    <script src="dist/grapesjs-mjml.min.js"></script>
+    <mjml>
+      <mj-body>    
+        <mj-container>
+          <mj-section>
+            <mj-column>
+              <mj-text>MJML markup test</mj-text>
+            </mj-column>
+          </mj-section>
+          <mj-container>
+          </mj-body>
+        </mjml>
+      </div>
+      
+      <script type="text/javascript">
+        var editor = grapesjs.init({
+          fromElement: 1,
+          container : '#gjs',
+          plugins: [
+          'gjs-mjml',
+          'gjs-plugin-filestack',
+          ],
+          pluginsOpts: {
+            'gjs-plugin-filestack': { key: 'Ajh5qpZXWQqmcxokCAM0Zz' }
+          },
+          
+        });
+        // Add the button
+        editor.Panels.addButton('options', [{ 
+          id: 'save-db', 
+          className: 'fa fa-cloud-upload', 
+          command: 'save-db',
+          attributes: {title: 'Publish'} 
+        }]);
+        
+        // Add the command
+        editor.Commands.add('save-db', {
+          run: function(editor, sender) {        
+            alert('saving...')
+            var htmldata = editor.runCommand('mjml-get-code').html
+            console.log(htmldata)
+            // sender && sender.set('active', 0); // turn off the button
+            // editor.store();
+          }
+        });
+        
+        
+      </script>
+    </body>
+    </html>
+    
